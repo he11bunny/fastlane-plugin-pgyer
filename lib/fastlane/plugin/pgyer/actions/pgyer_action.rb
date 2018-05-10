@@ -8,10 +8,10 @@ module Fastlane
       def self.run(params)
         UI.message("The pgyer plugin is working.")
 
-        api_host = "http://qiniu-storage.pgyer.com/apiv1/app/upload"
+        api_host = "https://www.pgyer.com/apiv2/app/upload"
         api_key = params[:api_key]
         user_key = params[:user_key]
-
+        app_name = params[:app_name]
         build_file = [
             params[:ipa],
             params[:apk]
@@ -54,6 +54,7 @@ module Fastlane
         end
 
         params = {
+            'buildName' => app_name,
             '_api_key' => api_key,
             'uKey' => user_key,
             'password' => password,
