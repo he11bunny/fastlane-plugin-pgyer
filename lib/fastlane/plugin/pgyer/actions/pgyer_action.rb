@@ -68,8 +68,10 @@ module Fastlane
         response = pgyer_client.post api_host, params
         info = response.body
 
-        UI.success "Upload success. Visit this URL to see: https://www.pgyer.com/#{info['data']['appShortcutUrl']}"
+        UI.success "Upload success. Visit this URL to see: https://www.pgyer.com/#{info['data']['buildKey']}"
 
+        "https://www.pgyer.com/#{info['data']['buildKey']}"
+        
       end
 
       def self.description
@@ -81,7 +83,11 @@ module Fastlane
       end
 
       def self.return_value
-        # If your method provides a return value, you can describe here what it does
+        "Returns a String containing the app download url"
+      end
+
+      def self.return_type
+        :string
       end
 
       def self.details
