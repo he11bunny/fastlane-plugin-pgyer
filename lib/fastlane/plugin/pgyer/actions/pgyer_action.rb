@@ -105,7 +105,7 @@ module Fastlane
           FastlaneCore::ConfigItem.new(key: :app_name,
                                   env_name: "PGYER_APP_NAME",
                                description: "app_name in your pgyer account",
-                                  optional: false,
+                                  optional: true,
                                       type: String),
           FastlaneCore::ConfigItem.new(key: :user_key,
                                   env_name: "PGYER_USER_KEY",
