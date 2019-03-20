@@ -57,9 +57,9 @@ module Fastlane
             'buildName' => app_name,
             '_api_key' => api_key,
             'uKey' => user_key,
-            'password' => password,
-            'updateDescription' => update_description,
-            'installType' => install_type,
+            'buildPassword' => password,
+            'buildUpdateDescription' => update_description,
+            'buildInstallType' => install_type,
             'file' => Faraday::UploadIO.new(build_file, 'application/octet-stream')
         }
 
