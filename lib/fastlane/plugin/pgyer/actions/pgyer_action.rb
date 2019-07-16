@@ -5,7 +5,7 @@ module Fastlane
   module Actions
     class PgyerAction < Action
       def self.run(params)
-        UI.message("The pgyer plugin is working.")
+        UI.message("The pgyer plugin is working!")
 
         api_host = "https://www.pgyer.com/apiv2/app/upload"
         api_key = params[:api_key]
@@ -73,7 +73,7 @@ module Fastlane
 
         UI.success "Upload success. Visit this URL to see: https://www.pgyer.com/#{info['data']['buildKey']}"
 
-        "https://www.pgyer.com/#{info['data']['buildKey']}"
+        {buildKey:info['data']['buildKey'],buildQRCodeURL:info['data']['buildQRCodeURL']}
       end
 
       def self.description
@@ -85,11 +85,11 @@ module Fastlane
       end
 
       def self.return_value
-        "Returns a String containing the app download url"
+        "Returns the following dict: {buildKey: \"buildKey\", buildQRCodeURL: \"buildQRCodeURL\"}"
       end
 
       def self.return_type
-        :string
+        :hash_of_strings
       end
 
       def self.details
