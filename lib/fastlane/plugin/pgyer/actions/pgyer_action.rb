@@ -7,10 +7,10 @@ module Fastlane
       def self.run(params)
         UI.message("The pgyer plugin is working.")
 
-        api_host = "http://qiniu-storage.pgyer.com/apiv1/app/upload"
+        api_host = "https://www.pgyer.com/apiv2/app/upload"
         api_key = params[:api_key]
         user_key = params[:user_key]
-
+        app_name = params[:app_name]
         build_file = [
           params[:ipa],
           params[:apk]
@@ -53,11 +53,12 @@ module Fastlane
         end
 
         params = {
+            'buildName' => app_name,
             '_api_key' => api_key,
             'uKey' => user_key,
-            'password' => password,
-            'updateDescription' => update_description,
-            'installType' => install_type,
+            'buildPassword' => password,
+            'buildUpdateDescription' => update_description,
+            'buildInstallType' => install_type,
             'file' => Faraday::UploadIO.new(build_file, 'application/octet-stream')
         }
 
@@ -70,7 +71,9 @@ module Fastlane
           UI.user_error!("PGYER Plugin Error: #{info['message']}")
         end
 
-        UI.success "Upload success. Visit this URL to see: https://www.pgyer.com/#{info['data']['appShortcutUrl']}"
+        UI.success "Upload success. Visit this URL to see: https://www.pgyer.com/#{info['data']['buildKey']}"
+
+        "https://www.pgyer.com/#{info['data']['buildKey']}"
       end
 
       def self.description
@@ -82,7 +85,11 @@ module Fastlane
       end
 
       def self.return_value
-        # If your method provides a return value, you can describe here what it does
+        "Returns a String containing the app download url"
+      end
+
+      def self.return_type
+        :string
       end
 
       def self.details
@@ -96,6 +103,11 @@ module Fastlane
                                   env_name: "PGYER_API_KEY",
                                description: "api_key in your pgyer account",
                                   optional: false,
+                                      type: String),
+          FastlaneCore::ConfigItem.new(key: :app_name,
+                                  env_name: "PGYER_APP_NAME",
+                               description: "app_name in your pgyer account",
+                                  optional: true,
                                       type: String),
           FastlaneCore::ConfigItem.new(key: :user_key,
                                   env_name: "PGYER_USER_KEY",
